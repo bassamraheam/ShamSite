@@ -1,0 +1,285 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>جامعة الشام العالمية</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+    <link rel="icon" href="{% static 'logo.png' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://www.fontstatic.com/f=hanimation" />
+    <link rel="stylesheet" type="text/css" href="https://www.fontstatic.com/f=alhurra" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/hover.css' %}" media="all">
+	<style>
+		@media (min-width: 800px) {
+            .container{
+              max-width: 98%;
+            }
+        }
+    </style>
+    </head>
+    <body>
+	 <!-- Begin of navbar -->
+     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light nav_myedit" style="box-shadow: 10px 8px 24px 5px #f3c623a3;
+     " id="ftco-navbar" dir="rtl">
+         <div class="container">
+             <img src="{% static 'logo.png' %}" height="100px">
+             <a class="navbar-brand text-center " href="index.html"><p class="mt-2" style="font-family: 'alhurra';">جامعة الشام العالمية</p><p style="font-family: 'alhurra';">Sham university</p></a>
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="fa fa-bars"></span> القائمة
+             </button>
+             <div class="collapse navbar-collapse" id="ftco-nav">
+	        		    <div class="navbar-nav ml-auto" >
+                            <li class="nav-item active " ><a style="font-size: medium; font-family: 'alhurra';" class="nav-link "href="{% url 'structures:struct' %}">الصفحة الرئيسية</a></li>
+                            {% for n in nav %}
+                                {% if not n.NAVHasFather %}
+                                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" style="cursor: pointer;font-size: medium; font-family: 'alhurra' ; text-align: right;"  >
+                                        {{n.NAVName}}</a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" >
+                                    {% for n1 in nav %}
+                                        {% if n1.NAVHasFather == n %}
+                                            <a class="dropdown-item dropdown-menu-right" style="font-size: medium; font-family: 'alhurra'; text-align: right;" href="{% url 'structures:nav_detail' n1.NAVSlug %}">{{n1}}</a>
+
+                                            <ul>
+                                                {% for n2 in nav %}
+                                                    {% if n2.NAVHasFather == n1 %}
+                                                        <li><a class="dropdown-item dropdown-menu-right" style="font-size: medium; font-family: 'alhurra'; text-align: right;" href="{% url 'structures:nav_detail' n2.NAVSlug %}">{{n2}}</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                    {% endif %}
+                                        {% endfor %}
+                                    </div></li>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                    </div>
+         </div>
+ </nav>
+<!-- End of navbar -->
+
+	<div class="container text-center">
+	 	<!-- Begin of carousel -->
+		<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            {% if smotion.count > 0 %}
+                <ol class="carousel-indicators">
+                    {% for m in smotion %}
+                        {% if m.MIVisible == True and m.MIImage %}
+                            {% if smotion.first == m %}
+                                <li data-target="#carouselExampleCaptions"  class="active"></li>
+                            {% else %}
+                                <li data-target="#carouselExampleCaptions"  ></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for m in smotion %}
+                        {% if m.MIVisible == True and m.MIImage %}
+                            {% if smotion.first == m %}
+                                <div class="carousel-item active">
+                            {% else %}
+                                <div class="carousel-item ">
+                            {% endif %}
+                                    <img src="{{m.MIImage.url}}" class="d-block w-100 " alt="...">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 style="color: white;">{{m.MITitle}}</h5>
+                                        <p>{{m.MIDetail}}</p>
+                                    </div>
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+            {% else %}
+                <ol class="carousel-indicators">
+                    {% for m in motion %}
+                        {% if m.MIVisible == True and m.MIImage and m.MIRelation == None %}
+                            {% if motion.first == m %}
+                                <li data-target="#carouselExampleCaptions"  class="active"></li>
+                            {% else %}
+                                <li data-target="#carouselExampleCaptions"  ></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for m in motion %}
+                        {% if m.MIVisible == True and m.MIImage and m.MIRelation == None %}
+                            {% if motion.first == m %}
+                                <div class="carousel-item active">
+                            {% else %}
+                                <div class="carousel-item ">
+                            {% endif %}
+                                    <img src="{{m.MIImage.url}}" class="d-block w-100 " alt="...">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 style="color: white;">{{m.MITitle}}</h5>
+                                        <p>{{m.MIDetail}}</p>
+                                    </div>
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+            {% endif %}
+
+
+			</div>
+			<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			  	<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+			  	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			  	<span class="sr-only">Next</span>
+			</a>
+		</div>
+		<!-- End of carousel -->
+
+		<!-- Begin of news -->
+		<div class="onoffswitch3">
+			<input type="checkbox" name="onoffswitch3" class="onoffswitch3-checkbox" id="myonoffswitch3" checked>
+			<label class="onoffswitch3-label" for="myonoffswitch3">
+				<span class="onoffswitch3-inner">
+					<span class="onoffswitch3-active">
+							<marquee class="scroll-text" direction="right" >
+                                {% for sn in news_short %}
+                                    <span class="icon fa fa-map" style="color: #f3c623a3;"></span>
+                                    {{ sn }}
+                                {% endfor %}
+                            </marquee>
+						<span class="onoffswitch3-switch" style="  font-family: 'hanimation';">آخر الأخبار</span>
+					</span>
+					<span class="onoffswitch3-inactive"><span class="onoffswitch3-switch">إظهار</span></span>
+				</span>
+			</label>
+		</div>
+		<!-- End of news -->
+
+		<!-- Begin of sidelist -->
+		<div class="row pt-2"  dir="rtl">
+			<div class="col-lg-3 bg-light" style="box-shadow: 10px 10px 5px -6px #f3c623a3; height: 50%; margin-bottom: 33px;">
+				<div class="sidebar" ><h2 style="font-family: 'hanimation';">جامعة الشام العالمية</h2></div>
+				<ul style="font-size: x-large; color: #02b961;">
+                    {#<li ><a class="hvr-backward" style="cursor: pointer;">الرئيسية</a></li>#}
+                    <li><a href="{% url 'structures:struct' %}" class="hvr-backward">الصفحة الرئيسية</a></li>
+                    {% for n in nav %}
+                        {% if not n.NAVHasFather %}
+					<li><a class="hvr-backward" style="cursor: pointer;">{{n.NAVName}}</a>
+                            <ul>
+                                <li>
+                                    {% for n1 in nav %}
+                                        {% if n1.NAVHasFather == n %}
+                                            <a class="hvr-backward" href="{% url 'structures:nav_detail' n1.NAVSlug %}" style="cursor: pointer;">{{n1}}</a>
+                                            <ul >
+                                                    {% for n2 in nav %}
+                                                        {% if n2.NAVHasFather == n1 %}
+                                                            <li><a class="hvr-backward" href="{% url 'structures:nav_detail' n2.NAVSlug %}">{{n2}}</a></li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                        {% endif %}
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                    {% endif %}
+                        {% endfor %}
+                    </li>
+
+				</ul>
+            </div>
+        
+			<!-- End of sidelist -->
+
+		<!-- Begin of article -->
+        {% if nav_detail.NAVHtml != None %}
+            <div class="col-lg-9" style="border: 4px ridge #169D99;border-radius: 33px; background-color: white; margin-top: 20px;">
+                <article style=" padding: 10px; " class="eng_article">
+                   <div class="art"> {{ nav_detail.NAVHtml|safe }} </div>
+                </article>
+            </div>
+        {% endif %}
+
+       </div>
+		<!-- End of article -->
+	</div>
+	<!-- End of content -->
+
+	<!-- Begin of footer -->
+    <footer class="footer" dir="rtl">
+		<div class="container" dir="rtl">
+			<div class="row">
+				<div class="col-md-6 col-lg-3 mb-4 mb-md-0" dir="rtl">
+					<h2 class="footer-heading" style="font-family: 'alhurra';">تواصل معنا</h2>
+					<p style="text-align: right;">نهتم دوما بالاستماع إلى مقترحاتكم وآرائكم.</p>
+					<ul class="ftco-footer-social p-0">
+              			<li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><span class="fab fa-facebook-f"></span></a></li>
+            		</ul>
+				</div>
+				<div class="col-md-6 col-lg-3 mb-4 mb-md-0" dir="rtl">
+					<h2 class="footer-heading" style="font-family: 'alhurra';">تصفح موقع الجامعة</h2>
+					<div class="block-21 mb-4 d-flex" >
+            			<div class="text" >
+                			<h3 class="heading" style="text-align: right;" ><a href="#">الطلاب</a></h3> 
+              			</div>
+            		</div>
+            		<div class="block-21 mb-4 d-flex">
+            			<div class="text">
+                			<h3 class="heading" style="text-align: right; "><a href="#">القبول</a></h3>
+             			</div>
+            		</div>
+				</div>
+				<div class="col-md-6 col-lg-3 pl-lg-5 mb-4 mb-md-0">
+					<h2 class="footer-heading" style="font-family: 'alhurra';">الجامعة</h2>		
+					<div class="block-21 mb-4 d-flex" >
+            			<div class="text" >
+                			<h3 class="heading" style="text-align: right;  "><a href="#">شؤون الطلاب</a></h3> 
+              			</div>
+            		</div>
+				</div>
+				<div class="col-md-6 col-lg-3 mb-4 mb-md-0 text-center">
+					<img src="{% static 'logo.png' %}" height="300px">
+ 				</div>
+			</div>
+		</div>
+		<div class="row mt-5">
+    		<div class="col-md-12 text-center">
+				<p class="copyright">
+  				Copyright &copy;<script>document.write(new Date().getFullYear());</script> جميع الحقوق محفوظة لجامعة الشام العالمية</p>
+        	</div>
+    	</div>
+	</footer>
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+				stroke="#02b961" /></svg></div>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  	<script src="{% static 'js/jquery.min.js' %}"></script>
+ 	<script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+  	<script src="{% static 'js/popper.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+  	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+  	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+  	<script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+  	<script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+  	<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+  	<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+  	<script src="{% static 'js/scrollax.min.js' %}"></script>
+  	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  	<script src="{% static 'js/google-map.js' %}"></script>
+  	<script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

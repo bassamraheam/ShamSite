@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>الأخبار</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+     <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+
+	<link rel="stylesheet" type="text/css" href="https://www.fontstatic.com/f=hanimation" />
+	<link rel="stylesheet" type="text/css" href="https://www.fontstatic.com/f=alhurra" />
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/hover.css' %}" media="all">
+
+	<style>
+		@media (min-width: 800px) {
+  .container{
+      max-width: 98%;
+  }
+}
+	</style>
+</head>
+
+<body style="background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 34%, rgba(237,237,237,1) 100%);
+
+">
+
+	<!-- Begin of navbar -->
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light nav_myedit" style="box-shadow: 10px 8px 24px 5px #f3c623a3;
+	" id="ftco-navbar" dir="rtl">
+		<div class="container">
+			<img src="{% static 'logo.png' %}" height="100px">
+			<a class="navbar-brand text-center " href="index.html"><p class="mt-2" style="font-family: 'alhurra';">جامعة الشام العالمية</p><p style="font-family: 'alhurra';">Sham university</p></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="fa fa-bars"></span> القائمة
+			</button>
+			<div class="collapse navbar-collapse" id="ftco-nav">
+	        		    <div class="navbar-nav ml-auto" >
+                            <li class="nav-item active " ><a style="font-size: medium; font-family: 'alhurra';" class="nav-link "href="{% url 'structures:struct' %}">الصفحة الرئيسية</a></li>
+                            {% for n in nav %}
+                                {% if not n.NAVHasFather %}
+                                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" style="cursor: pointer;font-size: medium; font-family: 'alhurra' ; text-align: right;"  >
+                                        {{n.NAVName}}</a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" >
+                                    {% for n1 in nav %}
+                                        {% if n1.NAVHasFather == n %}
+                                            <a class="dropdown-item dropdown-menu-right" style="font-size: medium; font-family: 'alhurra'; text-align: right;" href="{% url 'structures:nav_detail' n1.NAVSlug %}">{{n1}}</a>
+
+                                            <ul>
+                                                {% for n2 in nav %}
+                                                    {% if n2.NAVHasFather == n1 %}
+                                                        <li><a class="dropdown-item dropdown-menu-right" style="font-size: medium; font-family: 'alhurra'; text-align: right;" href="{% url 'structures:nav_detail' n2.NAVSlug %}">{{n2}}</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                    {% endif %}
+                                        {% endfor %}
+                                    </div></li>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                    </div>
+		</div>
+</nav>
+<!-- End of navbar -->
+
+
+	<div class="container" style="margin-bottom: 33px;">
+		<h1 style="text-align: center; margin-top: 33px; font-family: 'alhurra';">الأخبار</h1>
+		<div class="row" dir="rtl">
+
+
+            {% for n in news_list %}
+                <div class="col-lg-4">
+                    <div class="blog-card alt">
+                        <div class="meta">
+                            <div class="photo"
+                                style="background-image: url({{ n.NImage.url }});">
+                            </div>
+                            <ul class="details">
+                                <li class="date">{{ n.NDate }}</li>
+                            </ul>
+                        </div>
+                        <div class="description">
+                            <h1 style="text-align: right; font-family: 'alhurra';">{{ n.NTitle }}</h1>
+
+                                <p style="text-align: right;">{{ n.NDetail|truncatechars:80 }}</p>
+
+                            <p class="read-more" style="text-align: center;">
+                                <a href="{% url 'structure:news_detail_page' n.id %}"> المزيد</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+
+		</div>
+
+
+	</div>
+
+
+
+
+
+	<!-- Begin of footer -->
+    <footer class="footer" dir="rtl">
+		<div class="container" dir="rtl">
+			<div class="row">
+				<div class="col-md-6 col-lg-3 mb-4 mb-md-0" dir="rtl">
+					<h2 class="footer-heading" style="font-family: 'alhurra';">تواصل معنا</h2>
+					<p style="text-align: right;">نهتم دوما بالاستماع إلى مقترحاتكم وآرائكم.</p>
+					<ul class="ftco-footer-social p-0">
+              			<li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><span class="fab fa-facebook-f"></span></a></li>
+            		</ul>
+				</div>
+				<div class="col-md-6 col-lg-3 mb-4 mb-md-0" dir="rtl">
+					<h2 class="footer-heading" style="font-family: 'alhurra';">تصفح موقع الجامعة</h2>
+					<div class="block-21 mb-4 d-flex" >
+            			<div class="text" >
+                			<h3 class="heading" style="text-align: right;" ><a href="#">الطلاب</a></h3> 
+              			</div>
+            		</div>
+            		<div class="block-21 mb-4 d-flex">
+            			<div class="text">
+                			<h3 class="heading" style="text-align: right; "><a href="#">القبول</a></h3>
+             			</div>
+            		</div>
+				</div>
+				<div class="col-md-6 col-lg-3 pl-lg-5 mb-4 mb-md-0">
+					<h2 class="footer-heading" style="font-family: 'alhurra';">الجامعة</h2>		
+					<div class="block-21 mb-4 d-flex" >
+            			<div class="text" >
+                			<h3 class="heading" style="text-align: right;  "><a href="#">شؤون الطلاب</a></h3> 
+              			</div>
+            		</div>
+				</div>
+				<div class="col-md-6 col-lg-3 mb-4 mb-md-0 text-center">
+					<img src="{% static 'logo.png' %}" height="300px">
+ 				</div>
+			</div>
+		</div>
+		<div class="row mt-5">
+    		<div class="col-md-12 text-center">
+				<p class="copyright">
+  				Copyright &copy;<script>document.write(new Date().getFullYear());</script> جميع الحقوق محفوظة لجامعة الشام العالمية</p>
+        	</div>
+    	</div>
+	</footer>
+
+	<!-- loader -->
+
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  	<script src="{% static 'js/jquery.min.js' %}"></script>
+ 	<script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+  	<script src="{% static 'js/popper.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+  	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+  	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+  	<script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+  	<script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+  	<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+  	<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+  	<script src="{% static 'js/scrollax.min.js' %}"></script>
+  	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  	<script src="{% static 'js/google-map.js' %}"></script>
+  	<script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+
+</html>
